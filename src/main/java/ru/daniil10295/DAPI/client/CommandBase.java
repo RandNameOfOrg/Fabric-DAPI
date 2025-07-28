@@ -60,14 +60,13 @@ public class CommandBase {
                 try {
                     String value = context.getArgument(arg.name, String.class);
                     arg.value = value;
-                    source.sendFeedback(() -> Text.literal("Argument '" + arg.name + "': " + value).formatted(Formatting.GREEN), false);
                 } catch (IllegalArgumentException e) {
                     if (arg.required) {
                         source.sendError(Text.literal("Required argument '" + arg.name + "' is missing").formatted(Formatting.RED));
                         return;
                     }
                     // Use default value for optional arguments
-                    arg.value = arg.defualtValue;
+                    arg.value = arg.defaultValue;
                 }
             }
         }
@@ -117,7 +116,11 @@ public class CommandBase {
     }
 
     public void sendToChat(ServerCommandSource source, String message) {
-        source.sendFeedback(() -> Text.literal(message).formatted(Formatting.GREEN), false);
+        sendToChat(source, message, Formatting.GREEN);
+    }
+
+    public void sendToChat(ServerCommandSource source, String message, Formatting color) {
+        source.sendFeedback(() -> Text.literal(message).formatted(color), false);
     }
 
     public void sendError(ServerCommandSource source, String message) {

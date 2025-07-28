@@ -1,17 +1,9 @@
 package ru.daniil10295.DAPI;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.util.Formatting;
 import ru.daniil10295.DAPI.client.CommandArgument;
 import ru.daniil10295.DAPI.client.CommandBase;
-
-import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
-import static com.mojang.brigadier.builder.RequiredArgumentBuilder.argument;
 
 public class TestCommand extends CommandBase {
     public TestCommand() {
