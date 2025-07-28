@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "fabric-dapi",
+  "version": "${version}",
+  "name": "Fabric-DAPI",
+  "description": "D-CommandManager",
+  "authors": ["daniil10295"],
+  "contact": {},
+  "license": "Apache-2.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "ru.daniil10295.DAPI.DAPI"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": ">=${minecraft_version}"
+  }
+}
