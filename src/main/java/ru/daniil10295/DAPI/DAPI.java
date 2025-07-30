@@ -9,7 +9,7 @@ public class DAPI implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        logger.info("Loaded D-API DEV");
+        logger.info("Loaded D-API DEV, test text");
         try {
             new TestCommand();
         } catch (Exception e) {
