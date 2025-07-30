@@ -10,6 +10,10 @@ public class DAPI implements ModInitializer {
     @Override
     public void onInitialize() {
         logger.info("Loaded D-API DEV");
-        new TestCommand();
+        try {
+            new TestCommand();
+        } catch (Exception e) {
+            logger.severe("Failed to initialize TestCommand: " + e);
+        }
     }
 }

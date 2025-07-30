@@ -75,41 +75,39 @@ public class CommandBase {
     }
 
     public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
-        var command = literal(name)
-            .requires(source -> source.hasPermissionLevel(permissionLevel));
-
-        // Add arguments if any
-        if (args != null) {
-            var argBuilder = command;
-            for (CommandArgument arg : args) {
-                if (arg.required) {
-                    argBuilder = argBuilder.then(argument(arg.name, StringArgumentType.string()));
-                } else {
-                    argBuilder = argBuilder.then(
-                        argument(arg.name, StringArgumentType.string())
-                            .executes(context -> {
-                                // Handle optional argument
-                                return 1;
-                            })
-                    );
-                }
+        _register(dispatcher, name);
+        for (var alias: aliases) {
+            if (alias == null || alias.equals(name)) {
+                continue;
             }
-            command = argBuilder.executes(context -> {
+            _register(dispatcher, alias);
+        }
+    }
+
+    protected void _register(CommandDispatcher<ServerCommandSource> dispatcher, String name) {
+        var command = literal(name)
+                .requires(source -> source.hasPermissionLevel(permissionLevel));
+
+        if (args != null && args.length > 0) {
+            // Start with the first argument
+            var argBuilder = argument(args[0].name, StringArgumentType.string());
+            
+            // Add remaining arguments
+            for (int i = 1; i < args.length; i++) {
+                argBuilder = argBuilder.then(
+                    argument(args[i].name, StringArgumentType.string())
+                );
+            }
+            
+            command = command.then(argBuilder.executes(context -> {
                 parseArgs(context);
                 return run(args, context);
-            });
+            }));
         } else {
             command = command.executes(context -> {
                 parseArgs(context);
                 return run(args, context);
             });
-        }
-
-        // Add aliases if any
-        if (aliases != null) {
-            for (String alias : aliases) {
-                command = command.then(literal(alias));
-            }
         }
 
         dispatcher.register(command);
@@ -127,4 +125,3 @@ public class CommandBase {
         source.sendError(Text.literal(message).formatted(Formatting.RED));
     }
 }
-
